@@ -20,10 +20,18 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 
 	@Override
 	public int height() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		return height(root);
 	}
 
+	protected int height(BSTNode<T> node) {
+		int resp = -1;
+		if (!node.isEmpty()) {
+			int heightLeft = height((BSTNode<T>) node.getLeft());
+			int heightRight = height((BSTNode<T>) node.getRight());
+			resp = 1 + Math.max(heightLeft, heightRight);
+		}
+		return resp;
+	}
 
 	@Override
 	public BSTNode<T> search(T element) {
@@ -33,12 +41,14 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 	private BSTNode<T> search(BSTNode<T> node, T element){
 		BSTNode<T> resp = new BSTNode<>();
 		if(!node.isEmpty()){
-			if(element.compareTo(node.getData()) < 0){
-				resp = search((BSTNode<T>) node.getLeft(), element);
-			} else {
-				resp = search((BSTNode<T>) node.getRight(), element);
+			if(element.compareTo(node.getData()) == 0){
+				resp = node;
+				} else if(element.compareTo(node.getData()) < 0){
+					resp = search((BSTNode<T>) node.getLeft(), element);
+				} else {
+					resp = search((BSTNode<T>) node.getRight(), element);
+				}
 			}
-		}
 		return resp;
 	}
 
